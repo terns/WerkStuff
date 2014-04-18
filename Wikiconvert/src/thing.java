@@ -13,6 +13,7 @@ public static void main(String [] args){
     	    	int strike = 0;
     	    	int comment = 0;
     	    	int noedit = 0;
+    	    	int monospace = 0;
     	    	while (line != null) {
     	    		if (line.contains("{{{#!")) {
          	            line = line.replace("{{{", "<!--");
@@ -22,6 +23,18 @@ public static void main(String [] args){
         	            line = line.replace("{{{", "<pre>");
         	            noedit = 1;
     	    		}
+    	    		if (line.contains("`")) {
+        	            if (monospace == 0){
+    	    			line = line.replace("`", "<pre>");
+        	            noedit = 1;
+        	            monospace = 1;}
+        	            else{
+        	            line = line.replace("`", "</pre>");
+            	        noedit = 0;
+            	        monospace = 0;}	
+        	            }
+    	    		}
+    	    		
     	    		if (line.contains("}}}")) {
         	        	if (comment == 0){
         	            line = line.replace("}}}", "</pre>");
@@ -37,6 +50,9 @@ public static void main(String [] args){
     	    	else{
     	    	if (line.contains("**")) {
     	            line = line.replace("**", "'''");
+    	        }
+    	    	if (line.contains("//")) {
+    	            line = line.replace("//", "''");
     	        }
     	    	if (line.contains("--")) {
     	        	if (strike == 0){
@@ -85,21 +101,13 @@ public static void main(String [] args){
 
 			
 			System.out.println("Done");
-    	    }
+    	    
     	    
     	}catch (IOException e)
     	{
     		e.printStackTrace();}
     
-    	//try {
-
- 
-		//} catch (IOException e) {
-			//e.printStackTrace();
-		//}
-
     	
-          
                  
             } 
     }
